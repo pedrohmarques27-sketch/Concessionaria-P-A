@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Sora:wght@600;700;800&display=swap');
+
+/* ---------- Paleta e medidas ---------- */
+:root {
+    --noite: #0b1b2b;
+    --noite-2: #13293d;
+    --champagne: #c9a66b;
+    --champagne-claro: #ead6ab;
+    --showroom: #eef1f4;
+    --branco: #ffffff;
+    --texto: #1b2733;
+    --raio: 18px;
+    --lateral: clamp(1.25rem, 5vw, 4rem);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Manrope', system-ui, sans-serif;
+    line-height: 1.6;
+    color: var(--texto);
+    background: var(--showroom);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Cabeçalho ---------- */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem var(--lateral);
+    background: rgba(11, 27, 43, 0.88);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid rgba(201, 166, 107, 0.35);
+}
+
+header h1 {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(0.95rem, 2.4vw, 1.2rem);
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: var(--branco);
+}
+
+/* barra inclinada: lembra faixa de velocidade */
+header h1::before {
+    content: "";
+    width: 9px;
+    height: 28px;
+    background: linear-gradient(180deg, var(--champagne-claro), var(--champagne));
+    transform: skewX(-18deg);
+    border-radius: 2px;
+}
+
+nav a {
+    display: inline-block;
+    padding: 0.6rem 1.4rem;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--champagne-claro);
+    text-decoration: none;
+    border: 1px solid var(--champagne);
+    border-radius: 999px;
+    transition: background 0.25s, color 0.25s, transform 0.25s;
+}
+
+nav a:hover {
+    background: var(--champagne);
+    color: var(--noite);
+    transform: translateY(-2px);
+}
+
+a:focus-visible {
+    outline: 3px solid var(--champagne-claro);
+    outline-offset: 3px;
+}
+
+/* ---------- Banner ---------- */
+main {
+    flex: 1;
+}
+
+#fotoConcessionaria {
+    position: relative;
+    height: clamp(260px, 50vw, 560px);
+    overflow: hidden;
+    background: var(--noite-2);
+}
+
+#fotoConcessionaria img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    animation: entradaBanner 1.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* escurece o topo e "derrete" o banner no fundo da página */
+#fotoConcessionaria::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(11, 27, 43, 0.15) 0%,
+        rgba(11, 27, 43, 0.5) 60%,
+        var(--showroom) 100%
+    );
+}
+
+@keyframes entradaBanner {
+    from { transform: scale(1.12); opacity: 0.4; }
+    to   { transform: scale(1);    opacity: 1; }
+}
+
+/* ---------- Vitrine (cards sobem por cima do banner) ---------- */
+#fotosCarMoto {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: clamp(1.25rem, 3vw, 2rem);
+    max-width: 1240px;
+    margin: clamp(-110px, -8vw, -48px) auto 0;
+    padding: 0 var(--lateral) 4rem;
+}
+
+.carsMotos {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--branco);
+    border-radius: var(--raio);
+    box-shadow:
+        0 1px 2px rgba(11, 27, 43, 0.06),
+        0 22px 44px -20px rgba(11, 27, 43, 0.45);
+    transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.4s;
+}
+
+.carsMotos:hover {
+    transform: translateY(-8px);
+    box-shadow:
+        0 1px 2px rgba(11, 27, 43, 0.06),
+        0 34px 56px -22px rgba(11, 27, 43, 0.55);
+}
+
+/* a foto vem primeiro, mesmo estando depois do título no HTML */
+.carsMotos img {
+    order: -1;
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.carsMotos:hover img {
+    transform: scale(1.06);
+}
+
+.carsMotos h3 {
+    padding: 1.3rem 1.5rem 1.5rem;
+    font-family: 'Sora', sans-serif;
+    font-size: 1.12rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--noite);
+    border-top: 3px solid var(--champagne);
+}
+
+/* preço vira uma etiqueta de vidro sobre a foto */
+.carsMotos p {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    padding: 0.5rem 1rem;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--champagne-claro);
+    background: rgba(11, 27, 43, 0.82);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(201, 166, 107, 0.45);
+    border-radius: 999px;
+}
+
+/* ---------- Rodapé ---------- */
+footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    padding: 2rem var(--lateral);
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.7);
+    background: var(--noite);
+    border-top: 3px solid var(--champagne);
+}
+
+footer p:last-child {
+    color: var(--champagne-claro);
+    font-weight: 600;
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 560px) {
+    header { justify-content: center; text-align: center; }
+    footer { justify-content: center; text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
